@@ -49,7 +49,7 @@ def image():
         return "No file part"
 
     file = request.files['file']
-    return file
+
     if file.filename == '':
         return "No selected file"
 
