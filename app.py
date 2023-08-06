@@ -34,6 +34,8 @@ def hello():
 def image():
 
     image = request.files['image']
+
+    return image
     image_data = base64.b64encode(image.read()).decode('utf-8')
 
     return render_template('image_display.html', image_data=image_data)
