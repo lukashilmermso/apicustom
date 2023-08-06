@@ -10,11 +10,6 @@ from PIL import Image
 import io
 import logging
 
-app.logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(formatter)
-app.logger.addHandler(stream_handler)
 
 def create_app():
     app = Flask(__name__, static_folder='uploads', static_url_path='/uploads')
@@ -27,6 +22,12 @@ def create_app():
 
 
 app = create_app()
+
+app.logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+app.logger.addHandler(stream_handler)
 
 
 @app.route('/', methods=['GET'])
