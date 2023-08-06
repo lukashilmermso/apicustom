@@ -10,7 +10,7 @@ from PIL import Image
 import io
 import logging
 import base64
-from ultralytics import YOLO
+#from ultralytics import YOLO
 
 
 def create_app():
@@ -31,7 +31,7 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
-model = YOLO('bestClass.pt')
+#model = YOLO('bestClass.pt')
 
 @app.route('/', methods=['GET'])
 def homepage():
@@ -49,7 +49,7 @@ def image():
         return "No file part"
 
     file = request.files['file']
-
+    return file
     if file.filename == '':
         return "No selected file"
 
