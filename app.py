@@ -6,6 +6,8 @@ import requests
 from werkzeug.utils import secure_filename
 import os
 import ffmpeg
+from PIL import Image
+import io
 
 
 def create_app():
@@ -42,7 +44,7 @@ def image():
         return "No selected file"
 
     # Check if the file is an image
-    if file and allowed_file(file.filename):
+    if file:
         image = Image.open(io.BytesIO(file.read()))
         width, height = image.size
         return f"Image size: {width}x{height}"
