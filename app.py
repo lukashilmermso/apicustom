@@ -52,7 +52,7 @@ def image():
         app.logger.error("No selected file.")
         return "No selected file"
 
-    if file and allowed_file(file.filename):
+    if file:
         app.logger.debug("File uploaded successfully.")
         image = Image.open(io.BytesIO(file.read()))
         width, height = image.size
