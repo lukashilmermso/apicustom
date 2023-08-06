@@ -10,7 +10,7 @@ from PIL import Image
 import io
 import logging
 import base64
-from ultralytics import YOLO
+#from ultralytics import YOLO
 
 
 def create_app():
@@ -31,7 +31,7 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
-model = YOLO('bestClass.pt')
+#model = YOLO('bestClass.pt')
 
 @app.route('/', methods=['GET'])
 def homepage():
@@ -54,24 +54,23 @@ def image():
         return "No selected file"
 
     if file:
-        image = Image.open(file)
-        image = image.convert('RGB')
-        buffer = io.BytesIO()
-        image.save(buffer, format="JPEG")
-        file = buffer.getvalue()
-        
-        # Process the uploaded image using YOLO
-        results = model(file)
+        # Save the uploaded file to the 'uploads' folder
+        basepath = os.path.dirname(__file__)
+        filepath = os.path.join(basepath, 'uploads', file.filename)
+        file.save(filepath)
+
+        # Open the image using PIL
+        image = Image.open(filepath)
+        return "Hello MOIN"
+        # Process the image using YOLO
+        #results = model(image)
         names_dict = results.names
         probs = results.probs.data.tolist()
 
         # Get the name of the object with the highest probability
         best_prediction = names_dict[np.argmax(probs)]
 
-        # Encode the image to base64 for display
-        image_data = base64.b64encode(file.read()).decode('utf-8')
-
-        # Pass YOLO results and image data to the template for display
+        # Pass YOLO results to the template for display
         return best_prediction
         
 
