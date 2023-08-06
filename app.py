@@ -34,7 +34,7 @@ def hello():
 
 @app.route('/image', methods=['POST'])
 def image():
-    
+    print(request.file)
     if 'file' not in request.files:
         return "No file part"
 
