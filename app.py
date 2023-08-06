@@ -10,6 +10,7 @@ from PIL import Image
 import io
 import logging
 import base64
+from ultralytics import YOLO
 
 
 def create_app():
