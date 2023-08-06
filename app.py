@@ -55,6 +55,8 @@ def image():
     if file:
         # Process the uploaded image using YOLO
         results = model(file)
+        names_dict = results.names
+        probs = results.probs.data.tolist()
 
         # Get the name of the object with the highest probability
         best_prediction = names_dict[np.argmax(probs)]
