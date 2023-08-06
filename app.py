@@ -30,6 +30,7 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
+model = YOLO('bestClass.pt')
 
 @app.route('/', methods=['GET'])
 def homepage():
@@ -52,11 +53,17 @@ def image():
         return "No selected file"
 
     if file:
-        #image = Image.open(io.BytesIO(file.read()))
-        #width, height = image.size
-        #return f"Image size: {width}x{height}"
+        # Process the uploaded image using YOLO
+        results = model(file)
+
+        # Get the name of the object with the highest probability
+        best_prediction = names_dict[np.argmax(probs)]
+
+        # Encode the image to base64 for display
         image_data = base64.b64encode(file.read()).decode('utf-8')
-        return render_template('image_display.html', image_data=image_data)
+
+        # Pass YOLO results and image data to the template for display
+        return best_prediction
         
 
 
