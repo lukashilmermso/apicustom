@@ -41,7 +41,6 @@ def hello():
 
 @app.route('/image', methods=['POST'])
 def image():
-    app.logger.debug("Received request to upload image.")
     if 'file' not in request.files:
         app.logger.error("No file part in the request.")
         return "No file part"
@@ -49,13 +48,14 @@ def image():
     file = request.files['file']
 
     if file.filename == '':
-        app.logger.error("No selected file.")
         return "No selected file"
 
     if file:
-        app.logger.debug("File uploaded successfully.")
-        image = Image.open(io.BytesIO(file.read()))
-        width, height = image.size
-        return f"Image size: {width}x{height}"
+        #image = Image.open(io.BytesIO(file.read()))
+        #width, height = image.size
+        #return f"Image size: {width}x{height}"
+        image_data = base64.b64encode(file.read()).decode('utf-8')
+        return render_template('image_display.html', image_data=image_data)
+        
 
 
