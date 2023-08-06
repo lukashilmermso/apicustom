@@ -9,6 +9,7 @@ import ffmpeg
 from PIL import Image
 import io
 import logging
+import base64
 
 
 def create_app():
