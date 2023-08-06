@@ -1,7 +1,7 @@
 # app.py
 import subprocess
 import uuid
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 import requests
 from werkzeug.utils import secure_filename
 import os
