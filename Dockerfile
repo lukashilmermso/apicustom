@@ -13,7 +13,7 @@ WORKDIR /app
 ADD . /app
 
 # Install necessary packages, Flask and ffmpeg-python
-RUN pip install --no-cache-dir flask werkzeug ffmpeg-python requests gunicorn numpy opencv-python
+RUN pip install --no-cache-dir flask werkzeug ffmpeg-python requests gunicorn numpy opencv-python pillow io
 #ultralytics 
 
 # Make port 5000 available to the world outside this container
