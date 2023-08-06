@@ -43,15 +43,17 @@ def hello():
 def image():
     app.logger.debug("Received request to upload image.")
     if 'file' not in request.files:
+        app.logger.error("No file part in the request.")
         return "No file part"
 
     file = request.files['file']
 
     if file.filename == '':
+        app.logger.error("No selected file.")
         return "No selected file"
 
-    # Check if the file is an image
-    if file:
+    if file and allowed_file(file.filename):
+        app.logger.debug("File uploaded successfully.")
         image = Image.open(io.BytesIO(file.read()))
         width, height = image.size
         return f"Image size: {width}x{height}"
