@@ -32,7 +32,7 @@ def hello():
 
 @app.route('/image', methods=['POST'])
 def image():
-
+    return "Test"
     image = request.files['image']
     image_data = base64.b64encode(image.read()).decode('utf-8')
     return image_data
