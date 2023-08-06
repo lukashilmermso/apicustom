@@ -54,6 +54,12 @@ def image():
         return "No selected file"
 
     if file:
+        image = Image.open(file)
+        image = image.convert('RGB')
+        buffer = io.BytesIO()
+        image.save(buffer, format="JPEG")
+        file = buffer.getvalue()
+        return "Hello"
         # Process the uploaded image using YOLO
         results = model(file)
         names_dict = results.names
