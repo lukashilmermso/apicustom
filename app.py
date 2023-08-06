@@ -8,7 +8,13 @@ import os
 import ffmpeg
 from PIL import Image
 import io
+import logging
 
+app.logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+app.logger.addHandler(stream_handler)
 
 def create_app():
     app = Flask(__name__, static_folder='uploads', static_url_path='/uploads')
@@ -34,7 +40,7 @@ def hello():
 
 @app.route('/image', methods=['POST'])
 def image():
-    print(request.files)
+    app.logger.debug("Received request to upload image.")
     if 'file' not in request.files:
         return "No file part"
 
