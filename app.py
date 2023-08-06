@@ -33,10 +33,18 @@ def hello():
 @app.route('/image', methods=['POST'])
 def image():
     
-    image = request.files['image']
-    return image
-    image_data = base64.b64encode(image.read()).decode('utf-8')
-    return image_data
-    return render_template('image_display.html', image_data=image_data)
+    if 'file' not in request.files:
+        return "No file part"
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return "No selected file"
+
+    # Check if the file is an image
+    if file and allowed_file(file.filename):
+        image = Image.open(io.BytesIO(file.read()))
+        width, height = image.size
+        return f"Image size: {width}x{height}"
 
 
