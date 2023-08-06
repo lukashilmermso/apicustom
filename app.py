@@ -11,6 +11,7 @@ import io
 import logging
 import base64
 from ultralytics import YOLO
+import numpy as np
 
 
 def create_app():
@@ -64,8 +65,8 @@ def image():
        
         # Process the image using YOLO
         results = model(image)
-        names_dict = results.names
-        probs = results.probs.data.tolist()
+        names_dict = results[0].names
+        probs = results[0].probs.data.tolist()
 
         # Get the name of the object with the highest probability
         best_prediction = names_dict[np.argmax(probs)]
