@@ -12,6 +12,7 @@ import logging
 import base64
 #from ultralytics import YOLO
 import numpy as np
+import cv2
 
 
 def create_app():
