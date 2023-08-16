@@ -83,12 +83,9 @@ def process_image(file):
     opencv_image = np.array(image)
     opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
-    # Draw a red circle on the image
-    center_coordinates = (50, 50)  # Change this to the desired circle center
-    radius = 30
-    color = (0, 0, 255)  # Red color in BGR
-    thickness = 2
-    cv2.circle(opencv_image, center_coordinates, radius, color, thickness)
+    # Turn the entire image red
+    opencv_image[:, :, 0] = 0  # Set blue channel to 0
+    opencv_image[:, :, 1] = 0  # Set green channel to 0
 
     # Convert OpenCV image back to PIL format
     modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
@@ -100,8 +97,8 @@ def process_image(file):
     
     return modified_image_io
 
-@app.route('/redCircle', methods=['POST'])
-def red_circle():
+@app.route('/redImage', methods=['POST'])
+def red_image():
     if 'file' not in request.files:
         app.logger.error("No file part in the request.")
         return "No file part"
@@ -114,4 +111,5 @@ def red_circle():
     modified_image_io = process_image(file)
 
     return send_file(modified_image_io, mimetype='image/jpeg')
+
 
