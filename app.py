@@ -32,7 +32,7 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
-model = YOLO('bestClass.pt')
+#model = YOLO('bestClass.pt')
 
 @app.route('/', methods=['GET'])
 def homepage():
