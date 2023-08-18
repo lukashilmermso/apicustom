@@ -100,16 +100,20 @@ def process_image(file):
     cv2.circle(opencv_image, center_coordinates, radius, color, thickness)
 
     # Convert OpenCV image back to PIL format
-    modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
-    
+    modified_pil_image = Image.fromarray(opencv_image)
+
+    # Ensure both images have the same dimensions
+    if modified_pil_image.size != image.size:
+        modified_pil_image = modified_pil_image.resize(image.size)
+
     # Merge the modified image with the original image using alpha blending
-    modified_pil_image = Image.alpha_composite(image.convert("RGBA"), modified_pil_image)
-    
+    blended_image = Image.alpha_composite(image.convert("RGBA"), modified_pil_image.convert("RGBA"))
+
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
-    modified_pil_image.save(modified_image_io, format='JPEG')
+    blended_image.save(modified_image_io, format='JPEG')
     modified_image_io.seek(0)
-    
+
     return modified_image_io
 
 @app.route('/redImage', methods=['POST'])
