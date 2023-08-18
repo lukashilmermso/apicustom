@@ -106,10 +106,6 @@ def process_image(file):
     if modified_pil_image.size != image.size:
         modified_pil_image = modified_pil_image.resize(image.size)
 
-
-    # Convert blended image to "RGB" mode (removing alpha channel)
-    blended_rgb_image = modified_pil_image.convert("RGB")
-
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
     blended_rgb_image.save(modified_image_io, format='JPEG')
