@@ -93,24 +93,20 @@ def process_image(file):
     opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
     # Draw a red circle on the image
-    center_coordinates = (300, 300)  # Change this to the desired circle center
-    radius = 60
+    center_coordinates = (500, 500)  # Change this to the desired circle center
+    radius = 100
     color = (0, 0, 255)  # Red color in BGR
     thickness = 2
     cv2.circle(opencv_image, center_coordinates, radius, color, thickness)
 
     # Convert OpenCV image back to PIL format
-    modified_pil_image = Image.fromarray(opencv_image)
-
-    # Ensure both images have the same dimensions
-    if modified_pil_image.size != image.size:
-        modified_pil_image = modified_pil_image.resize(image.size)
-
+    modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
+    
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
-    modified_image_io.save(modified_image_io, format='JPEG')
+    modified_pil_image.save(modified_image_io, format='JPEG')
     modified_image_io.seek(0)
-
+    
     return modified_image_io
 
 @app.route('/redImage', methods=['POST'])
