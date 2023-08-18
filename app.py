@@ -96,7 +96,7 @@ def process_image(file):
     
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
-    modified_pil_image.save(modified_image_io, format='JPEG')
+    modified_pil_image.save(modified_image_io, format='JPG')
     modified_image_io.seek(0)
     
     return modified_image_io
@@ -114,6 +114,6 @@ def red_image():
 
     modified_image_io = process_image(file)
 
-    return send_file(modified_image_io, mimetype='image/jpeg')
+    return send_file(modified_image_io, mimetype='image/JPG')
 
 
