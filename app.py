@@ -89,6 +89,8 @@ def process_image(file):
     opencv_image[:, :, 0] = 0  # Set blue channel to 0
     opencv_image[:, :, 1] = 0  # Set green channel to 0
 
+
+    rotated_pil_image = image.transpose(Image.Transpose.ROTATE_270)
     # Convert OpenCV image back to PIL format
     modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
     
