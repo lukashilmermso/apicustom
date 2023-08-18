@@ -108,7 +108,7 @@ def process_image(file):
 
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
-    blended_rgb_image.save(modified_image_io, format='JPEG')
+    modified_image_io.save(modified_image_io, format='JPEG')
     modified_image_io.seek(0)
 
     return modified_image_io
