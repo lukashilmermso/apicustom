@@ -81,7 +81,7 @@ def process_image(file):
     
     # Convert PIL image to OpenCV format
     opencv_image = np.array(image)
-    opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
+    opencv_image = opencv_image[:, :, ::-1]
 
   
 
