@@ -83,8 +83,7 @@ def process_image(file):
     opencv_image = np.array(image)
     opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
-    width, height = opencv_image.size
-    logging.info(f"Image width: {width}, Image height: {height}")
+  
 
 
     
@@ -93,8 +92,6 @@ def process_image(file):
     opencv_image[:, :, 1] = 0  # Set green channel to 0
 
 
-    width, height = opencv_image.size
-    logging.info(f"Image width: {width}, Image height: {height}")
     
     # Convert OpenCV image back to PIL format
     modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
