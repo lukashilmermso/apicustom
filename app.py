@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw
 import io
 import logging
 import base64
-#from ultralytics import YOLO
+from ultralytics import YOLO
 import numpy as np
 import cv2
 
@@ -33,7 +33,10 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
-#model = YOLO('bestClass.pt')
+model = YOLO('bestCombines.pt')
+multipleClasses = {0: "Form_1"}
+oneClass = {1: "Form_2"}
+combinedClasses = {**multipleClasses, **oneClass}
 
 @app.route('/', methods=['GET'])
 def homepage():
@@ -90,13 +93,49 @@ def process_image(file):
                 image = image.rotate(90, expand=True)
     
     opencv_image = np.array(image)
+    opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
+    results = model.predict(source=opencv_image, show=False, conf=0.75)
+
+    for result in results:
+        boxes = result.boxes.cpu().numpy()
+        for i, box in enumerate(boxes):
+            print(box)
+            type = combinedClasses[box.cls[0].astype(int)]
+            if box.conf[0] > 0.75:
+    
+                r = box.xyxy[0].astype(int)
+                # Load the image using OpenCV
+    
+                top_left = (r[0], r[1])
+                bottom_right = (r[2], r[3])
+                label_text = type + "(Conf: " + str(round(box.conf[0], 2)) + ")"
+    
+            else:
+                break
+    color = (0, 255, 0)  # Color of the rectangle (in BGR format)
+    thickness = 2  # Thickness of the rectangle's border
+    
+    # Draw the rectangle on the image
+    cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
+    
+    label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
+    
+    # Define the font settings
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 5
+    font_color = (0, 255, 0)
+    font_thickness = 10
+    
+    # Add the custom label to the image
+    cv2.putText(opencv_image, label_text, label_position, font, font_scale, font_color, font_thickness)
+    
     # Draw a red circle on the image
-    center_coordinates = (500, 500)  # Change this to the desired circle center
-    radius = 100
-    color = (0, 0, 255)  # Red color in BGR
-    thickness = 2
-    cv2.circle(opencv_image, center_coordinates, radius, color, thickness)
+    #center_coordinates = (500, 500)  # Change this to the desired circle center
+    #radius = 100
+    #color = (0, 0, 255)  # Red color in BGR
+    #thickness = 2
+    #cv2.circle(opencv_image, center_coordinates, radius, color, thickness)
 
     # Convert OpenCV image back to PIL format
     modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
