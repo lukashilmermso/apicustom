@@ -78,7 +78,7 @@ def image():
 def process_image(file):
     # Open the image using PIL
     image = Image.open(file)
-    if hasattr(image, '_getexif'):
+    if hasattr(image, '_getexif') and image._getexif() is not None:
         exif = dict(image._getexif().items())
         if 274 in exif:  # Attribute code for orientation
             orientation = exif[274]
