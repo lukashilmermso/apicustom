@@ -90,7 +90,6 @@ def process_image(file):
                 image = image.rotate(90, expand=True)
     
     opencv_image = np.array(image)
-    opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
     # Draw a red circle on the image
     center_coordinates = (500, 500)  # Change this to the desired circle center
