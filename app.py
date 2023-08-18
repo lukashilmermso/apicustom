@@ -37,7 +37,7 @@ app.logger.addHandler(stream_handler)
 
 @app.route('/', methods=['GET'])
 def homepage():
-    return "Homepage"
+    return "Homepagee"
 
 
 @app.route('/hello', methods=['GET'])
