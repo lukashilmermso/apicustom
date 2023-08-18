@@ -83,6 +83,9 @@ def process_image(file):
     opencv_image = np.array(image)
     opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
+    width, height = opencv_image.size
+    logging.info(f"Image width: {width}, Image height: {height}")
+
 
     
     # Turn the entire image red
@@ -90,13 +93,19 @@ def process_image(file):
     opencv_image[:, :, 1] = 0  # Set green channel to 0
 
 
-    rotated_pil_image = image.transpose(Image.Transpose.ROTATE_270)
+    width, height = opencv_image.size
+    logging.info(f"Image width: {width}, Image height: {height}")
+    
     # Convert OpenCV image back to PIL format
     modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
+
+
+    modified_width, modified_height = modified_pil_image.size
+    logging.info(f"Modified Image - Width: {modified_width}, Height: {modified_height}")
     
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
-    modified_pil_image.save(modified_image_io, format='JPG')
+    modified_pil_image.save(modified_image_io, format='JPEG')
     modified_image_io.seek(0)
     
     return modified_image_io
@@ -114,6 +123,6 @@ def red_image():
 
     modified_image_io = process_image(file)
 
-    return send_file(modified_image_io, mimetype='image/JPG')
+    return send_file(modified_image_io, mimetype='image/JPEG')
 
 
