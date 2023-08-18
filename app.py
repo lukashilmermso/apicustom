@@ -78,7 +78,16 @@ def image():
 def process_image(file):
     # Open the image using PIL
     image = Image.open(file)
-    
+    if hasattr(image, '_getexif'):
+        exif = dict(image._getexif().items())
+        if ExifTags.TAG_ORIENTATION in exif:
+            orientation = exif[ExifTags.TAG_ORIENTATION]
+            if orientation == 3:
+                image = image.rotate(180, expand=True)
+            elif orientation == 6:
+                image = image.rotate(270, expand=True)
+            elif orientation == 8:
+                image = image.rotate(90, expand=True)
     # Convert PIL image to OpenCV format
     opencv_image = np.array(image)
     opencv_image = opencv_image[:, :, ::-1]
