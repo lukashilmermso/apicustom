@@ -89,18 +89,18 @@ def process_image(file):
             elif orientation == 8:
                 image = image.rotate(90, expand=True)
     
-    # Get the image size
-    width, height = image.size
-    
-    # Create a new image with the same size and white background
-    modified_pil_image = Image.new("RGB", (width, height), "white")
-    
-    # Draw a red circle in the middle of the image
-    draw = ImageDraw.Draw(modified_pil_image)
-    circle_radius = min(width, height) // 4  # Adjust the circle size as needed
-    circle_center = (width // 2, height // 2)
-    draw.ellipse((circle_center[0] - circle_radius, circle_center[1] - circle_radius,
-                  circle_center[0] + circle_radius, circle_center[1] + circle_radius), fill="red")
+    opencv_image = np.array(image)
+    opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
+
+    # Draw a red circle on the image
+    center_coordinates = (300, 300)  # Change this to the desired circle center
+    radius = 60
+    color = (0, 0, 255)  # Red color in BGR
+    thickness = 2
+    cv2.circle(opencv_image, center_coordinates, radius, color, thickness)
+
+    # Convert OpenCV image back to PIL format
+    modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
     
     # Merge the modified image with the original image using alpha blending
     modified_pil_image = Image.alpha_composite(image.convert("RGBA"), modified_pil_image)
