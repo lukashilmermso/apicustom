@@ -98,10 +98,6 @@ def process_image(file):
     
     # Convert OpenCV image back to PIL format
     modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
-
-
-    modified_width, modified_height = modified_pil_image.size
-    logging.info(f"Modified Image - Width: {modified_width}, Height: {modified_height}")
     
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
