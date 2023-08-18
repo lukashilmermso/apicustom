@@ -78,7 +78,7 @@ def image():
 def process_image(file):
     # Open the image using PIL
     image = Image.open(file)
-    if hasattr(image, '_getexif') and image._getexif() is not None:
+    if hasattr(image, '_getexif'):
         exif = dict(image._getexif().items())
         if 274 in exif:  # Attribute code for orientation
             orientation = exif[274]
@@ -88,22 +88,22 @@ def process_image(file):
                 image = image.rotate(270, expand=True)
             elif orientation == 8:
                 image = image.rotate(90, expand=True)
-    # Convert PIL image to OpenCV format
-    opencv_image = np.array(image)
-    opencv_image = opencv_image[:, :, ::-1]
-
-  
-
-
     
-    # Turn the entire image red
-    opencv_image[:, :, 0] = 0  # Set blue channel to 0
-    opencv_image[:, :, 1] = 0  # Set green channel to 0
-
-
+    # Get the image size
+    width, height = image.size
     
-    # Convert OpenCV image back to PIL format
-    modified_pil_image = Image.fromarray(cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB))
+    # Create a new image with the same size and white background
+    modified_pil_image = Image.new("RGB", (width, height), "white")
+    
+    # Draw a red circle in the middle of the image
+    draw = ImageDraw.Draw(modified_pil_image)
+    circle_radius = min(width, height) // 4  # Adjust the circle size as needed
+    circle_center = (width // 2, height // 2)
+    draw.ellipse((circle_center[0] - circle_radius, circle_center[1] - circle_radius,
+                  circle_center[0] + circle_radius, circle_center[1] + circle_radius), fill="red")
+    
+    # Merge the modified image with the original image using alpha blending
+    modified_pil_image = Image.alpha_composite(image.convert("RGBA"), modified_pil_image)
     
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
