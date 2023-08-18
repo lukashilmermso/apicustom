@@ -80,8 +80,8 @@ def process_image(file):
     image = Image.open(file)
     if hasattr(image, '_getexif'):
         exif = dict(image._getexif().items())
-        if ExifTags.TAG_ORIENTATION in exif:
-            orientation = exif[ExifTags.TAG_ORIENTATION]
+        if 274 in exif:  # Attribute code for orientation
+            orientation = exif[274]
             if orientation == 3:
                 image = image.rotate(180, expand=True)
             elif orientation == 6:
