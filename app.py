@@ -83,6 +83,36 @@ def process_image(file):
     opencv_image = np.array(image)
     opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
+    original_height, original_width = opencv_image.shape[:2]
+
+    # Define the target dimensions
+    target_width = 920
+    target_height = 1080
+    
+    # Calculate the aspect ratios
+    aspect_ratio_original = original_width / original_height
+    aspect_ratio_target = target_width / target_height
+    
+    # Calculate the new dimensions while maintaining the aspect ratio
+    if aspect_ratio_original > aspect_ratio_target:
+        new_width = target_width
+        new_height = int(target_width / aspect_ratio_original)
+    else:
+        new_width = int(target_height * aspect_ratio_original)
+        new_height = target_height
+    
+    # Resize the image
+    resized_image = cv2.resize(opencv_image, (new_width, new_height))
+    
+    # Add padding if needed to reach the target size
+    top_padding = (target_height - new_height) // 2
+    bottom_padding = target_height - new_height - top_padding
+    left_padding = (target_width - new_width) // 2
+    right_padding = target_width - new_width - left_padding
+    
+    opencv_image = cv2.copyMakeBorder(resized_image, top_padding, bottom_padding, left_padding, right_padding, cv2.BORDER_CONSTANT)
+
+    
     # Turn the entire image red
     opencv_image[:, :, 0] = 0  # Set blue channel to 0
     opencv_image[:, :, 1] = 0  # Set green channel to 0
