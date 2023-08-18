@@ -6,7 +6,7 @@ import requests
 from werkzeug.utils import secure_filename
 import os
 import ffmpeg
-from PIL import Image, ExifTags
+from PIL import Image, ImageDraw
 import io
 import logging
 import base64
