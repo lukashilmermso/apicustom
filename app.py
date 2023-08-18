@@ -106,11 +106,9 @@ def process_image(file):
     if modified_pil_image.size != image.size:
         modified_pil_image = modified_pil_image.resize(image.size)
 
-    # Merge the modified image with the original image using alpha blending
-    blended_image = Image.alpha_composite(image.convert("RGBA"), modified_pil_image.convert("RGBA"))
 
     # Convert blended image to "RGB" mode (removing alpha channel)
-    blended_rgb_image = blended_image.convert("RGB")
+    blended_rgb_image = modified_pil_image.convert("RGB")
 
     # Save the modified image as a temporary file
     modified_image_io = io.BytesIO()
