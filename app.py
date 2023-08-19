@@ -117,7 +117,7 @@ def process_image(file):
         boxes = result.boxes.cpu().numpy()
         for i, box in enumerate(boxes):
             type = combinedClasses[box.cls[0].astype(int)]
-            if type in multipleCLasses.values():
+            if type in multipleClasses.values():
                 if box.conf[0] > 0.75:
         
                     r = box.xyxy[0].astype(int)
