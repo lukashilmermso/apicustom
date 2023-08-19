@@ -21,6 +21,21 @@ def create_app():
     upload_folder = app.config['UPLOAD_FOLDER']
     if not os.path.exists(upload_folder):
         os.makedirs(upload_folder)
+
+    app.config['OUTPUT_FOLDER'] = '/app/output_folder/'
+    output_folder = app.config['OUTPUT_FOLDER']
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    else:
+        # Delete everything in output_folder if it exists
+        for filename in os.listdir(output_folder):
+            file_path = os.path.join(output_folder, filename)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+            except Exception as e:
+                print(f"Error deleting {file_path}: {e}")
+    
     # Other setup code...
     return app
 
@@ -34,6 +49,7 @@ stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
 model = YOLO('bestCombines.pt')
+model = YOLO('bestClass.pt')
 multipleClasses = {0: "Form_1"}
 oneClass = {1: "Form_2"}
 combinedClasses = {**multipleClasses, **oneClass}
@@ -100,17 +116,34 @@ def process_image(file):
     for result in results:
         boxes = result.boxes.cpu().numpy()
         for i, box in enumerate(boxes):
-            print(box)
             type = combinedClasses[box.cls[0].astype(int)]
-            if box.conf[0] > 0.75:
-    
-                r = box.xyxy[0].astype(int)
-                # Load the image using OpenCV
-    
-                top_left = (r[0], r[1])
-                bottom_right = (r[2], r[3])
-                label_text = type + "(Conf: " + str(round(box.conf[0], 2)) + ")"
-    
+            if type in multipleCLasses.values():
+                if box.conf[0] > 0.75:
+        
+                    r = box.xyxy[0].astype(int)
+        
+                    top_left = (r[0], r[1])
+                    bottom_right = (r[2], r[3])
+
+                    crop = img[r[1] - 20:r[3] + 20, r[0]:r[2]]
+                    basepath = os.path.dirname(__file__)
+                    output_path = os.path.join(basepath, 'output_folder', str(i) + ".jpg")
+
+                    cv2.imwrite(output_path, crop)
+
+                    results = model1(output_path)
+
+                    names_dict = results[0].names
+
+                    probs = results[0].probs.data.tolist()
+                    
+                    label_text = "Form_1_" + names_dict[np.argmax(probs)] + "(Conf: " + str(round(box.conf[0], 2)) + ")"
+                else:
+                    r = box.xyxy[0].astype(int)
+                    
+                    top_left = (r[0], r[1])
+                    bottom_right = (r[2], r[3])
+                    label_text = "Form_2" + "(Conf: " + str(round(box.conf[0], 2)) + ")"
             else:
                 break
     color = (0, 255, 0)  # Color of the rectangle (in BGR format)
