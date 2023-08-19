@@ -125,7 +125,7 @@ def process_image(file):
                     top_left = (r[0], r[1])
                     bottom_right = (r[2], r[3])
 
-                    crop = img[r[1] - 20:r[3] + 20, r[0]:r[2]]
+                    crop = opencv_image[r[1] - 20:r[3] + 20, r[0]:r[2]]
                     basepath = os.path.dirname(__file__)
                     output_path = os.path.join(basepath, 'output_folder', str(i) + ".jpg")
 
