@@ -49,7 +49,7 @@ stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
 model = YOLO('bestCombines.pt')
-model = YOLO('bestClass.pt')
+model1 = YOLO('bestClass.pt')
 multipleClasses = {0: "Form_1"}
 oneClass = {1: "Form_2"}
 combinedClasses = {**multipleClasses, **oneClass}
