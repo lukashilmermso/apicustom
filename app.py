@@ -112,7 +112,9 @@ def process_image(file):
     opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
     results = model.predict(source=opencv_image, show=False, conf=0.75)
-
+    color = (0, 255, 0)  # Color of the rectangle (in BGR format)
+    thickness = 2  # Thickness of the rectangle's border
+    
     for result in results:
         boxes = result.boxes.cpu().numpy()
         for i, box in enumerate(boxes):
@@ -138,30 +140,52 @@ def process_image(file):
                     probs = results[0].probs.data.tolist()
                     
                     label_text = "Form_1_" + names_dict[np.argmax(probs)] + "(Conf: " + str(round(box.conf[0], 2)) + ")"
+                    cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
+    
+                    label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
+                    
+                    # Define the font settings
+                    font = cv2.FONT_HERSHEY_SIMPLEX
+                    font_scale = 3
+                    font_color = (0, 255, 0)
+                    font_thickness = 10
+                    
+                    # Add the custom label to the image
+                    cv2.putText(opencv_image, label_text, label_position, font, font_scale, font_color, font_thickness)
                 else:
                     r = box.xyxy[0].astype(int)
                     
                     top_left = (r[0], r[1])
                     bottom_right = (r[2], r[3])
                     label_text = "Form_2" + "(Conf: " + str(round(box.conf[0], 2)) + ")"
+                    cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
+    
+                    label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
+                    
+                    # Define the font settings
+                    font = cv2.FONT_HERSHEY_SIMPLEX
+                    font_scale = 3
+                    font_color = (0, 255, 0)
+                    font_thickness = 10
+                    
+                    # Add the custom label to the image
+                    cv2.putText(opencv_image, label_text, label_position, font, font_scale, font_color, font_thickness)
             else:
                 break
-    color = (0, 255, 0)  # Color of the rectangle (in BGR format)
-    thickness = 2  # Thickness of the rectangle's border
     
     # Draw the rectangle on the image
-    cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
+    #cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
     
-    label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
+    #label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
     
     # Define the font settings
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 5
-    font_color = (0, 255, 0)
-    font_thickness = 10
+    #font = cv2.FONT_HERSHEY_SIMPLEX
+    #font_scale = 3
+    #font_color = (0, 255, 0)
+    #font_thickness = 10
     
     # Add the custom label to the image
-    cv2.putText(opencv_image, label_text, label_position, font, font_scale, font_color, font_thickness)
+    #cv2.putText(opencv_image, label_text, label_position, font, font_scale, font_color, font_thickness)
     
     # Draw a red circle on the image
     #center_coordinates = (500, 500)  # Change this to the desired circle center
