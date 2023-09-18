@@ -140,7 +140,7 @@ def process_image(file):
 
                     probs = results[0].probs.data.tolist()
                     
-                    label_text = "Form_1_" + names_dict[np.argmax(probs)] + "(Conf: " + str(round(box.conf[0], 2)) + ")"
+                    label_text = type + names_dict[np.argmax(probs)] + " (Conf: " + str(round(box.conf[0], 2)) + ")"
                     cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
     
                     label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
@@ -158,7 +158,7 @@ def process_image(file):
                     
                     top_left = (r[0], r[1])
                     bottom_right = (r[2], r[3])
-                    label_text = "Form_2" + "(Conf: " + str(round(box.conf[0], 2)) + ")"
+                    label_text = type + " (Conf: " + str(round(box.conf[0], 2)) + ")"
                     cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
     
                     label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
