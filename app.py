@@ -48,10 +48,11 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
-model = YOLO('bestBBOXES.pt')
+#model = YOLO('bestBBOXES.pt')
+model = YOLO('bestALLCLASSES.pt')
 model1 = YOLO('bestClass.pt')
 multipleClasses = {0: "Form_1"}
-oneClass = {1: "Form_2"}
+oneClass = {1: "Form_2", 2: "Form_3", 3: "Form_4", 4: "Form_5"}
 combinedClasses = {**multipleClasses, **oneClass}
 
 @app.route('/', methods=['GET'])
