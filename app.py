@@ -52,7 +52,7 @@ app.logger.addHandler(stream_handler)
 model = YOLO('bestALLCLASSES.pt')
 model1 = YOLO('bestClass.pt')
 model2 = YOLO('best bewclasses1.pt')
-multipleClasses = {0: "Form_1", , 2: "Form_3"}
+multipleClasses = {0: "Form_1", 2: "Form_3"}
 oneClass = {1: "Form_2", 3: "Form_4", 4: "Form_5"}
 combinedClasses = {**multipleClasses, **oneClass}
 
