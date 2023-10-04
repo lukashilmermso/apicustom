@@ -49,9 +49,9 @@ stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
 #model = YOLO('bestBBOXES.pt')
-model = YOLO('bestALLCLASSES.pt')
+model = YOLO("bestALLCLASSES.pt")
 model1 = YOLO('bestClass.pt')
-model2 = YOLO('best bewclasses1.pt')
+model2 = YOLO('best newclasses1.pt')
 multipleClasses = {0: "Form_1", 2: "Form_3"}
 oneClass = {1: "Form_2", 3: "Form_4", 4: "Form_5"}
 combinedClasses = {**multipleClasses, **oneClass}
@@ -123,7 +123,7 @@ def process_image(file):
             type = combinedClasses[box.cls[0].astype(int)]
             if box.conf[0] > 0.75:
                 if type in multipleClasses.values():
-                    print(type)
+                    
                     r = box.xyxy[0].astype(int)
         
                     top_left = (r[0], r[1])
@@ -135,13 +135,18 @@ def process_image(file):
 
                     cv2.imwrite(output_path, crop)
 
-                    results = model1(output_path)
+                    if type == "Form_1":
+                        results = model1(output_path)
+                    if type == "Form_3":
+                        results = model2(output_path)
 
                     names_dict = results[0].names
 
                     probs = results[0].probs.data.tolist()
                     
-                    label_text = type + names_dict[np.argmax(probs)] + " (Conf: " + str(round(box.conf[0], 2)) + ")"
+                    label_text = type + "_" + names_dict[np.argmax(probs)]
+                    
+                    #" (Conf: " + str(round(box.conf[0], 2)) + ")"
                     cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
     
                     label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
