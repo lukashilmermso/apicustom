@@ -51,8 +51,9 @@ app.logger.addHandler(stream_handler)
 #model = YOLO('bestBBOXES.pt')
 model = YOLO('bestALLCLASSES.pt')
 model1 = YOLO('bestClass.pt')
-multipleClasses = {0: "Form_1"}
-oneClass = {1: "Form_2", 2: "Form_3", 3: "Form_4", 4: "Form_5"}
+model2 = YOLO('best bewclasses1.pt')
+multipleClasses = {0: "Form_1", , 2: "Form_3"}
+oneClass = {1: "Form_2", 3: "Form_4", 4: "Form_5"}
 combinedClasses = {**multipleClasses, **oneClass}
 
 @app.route('/', methods=['GET'])
@@ -122,7 +123,7 @@ def process_image(file):
             type = combinedClasses[box.cls[0].astype(int)]
             if box.conf[0] > 0.75:
                 if type in multipleClasses.values():
-        
+                    print(type)
                     r = box.xyxy[0].astype(int)
         
                     top_left = (r[0], r[1])
