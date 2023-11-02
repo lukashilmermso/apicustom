@@ -143,8 +143,17 @@ def process_image(file):
                     names_dict = results[0].names
 
                     probs = results[0].probs.data.tolist()
+
+                    if names_dict[np.argmax(probs)] == "D2":
+                        a = "5-125-07"
+                    elif names_dict[np.argmax(probs)] == "D3":
+                        a = "5-125-08"
+                    elif names_dict[np.argmax(probs)] == "1":
+                        a = "5-320-01"
+                    elif names_dict[np.argmax(probs)] == "2":
+                        a = "5-320-02"
                     
-                    label_text = type + "_" + names_dict[np.argmax(probs)]
+                    label_text = "(!) " + a
                     
                     #" (Conf: " + str(round(box.conf[0], 2)) + ")"
                     cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
@@ -154,7 +163,7 @@ def process_image(file):
                     # Define the font settings
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     font_scale = 3
-                    font_color = (0, 255, 0)
+                    font_color = (220,20,60)
                     font_thickness = 10
                     
                     # Add the custom label to the image
@@ -164,7 +173,15 @@ def process_image(file):
                     
                     top_left = (r[0], r[1])
                     bottom_right = (r[2], r[3])
-                    label_text = type + " (Conf: " + str(round(box.conf[0], 2)) + ")"
+
+                    if type == "Form_2":
+                        type = "5-25-20"
+                    elif type == "Form_4":
+                        type = "5-320-18"
+                    elif type == "Form_5":
+                        type = "5-320-30"
+                    
+                    label_text = type 
                     cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
     
                     label_position = (top_left[0], top_left[1] - 10)  # Just above the rectangle
