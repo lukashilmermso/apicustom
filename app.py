@@ -169,6 +169,7 @@ def process_image(file):
                     # Add the custom label to the image
                     cv2.putText(opencv_image, label_text, label_position, font, font_scale, font_color, font_thickness)
                 else:
+                    color = (0, 255, 0)  # Color of the rectangle (in BGR format)
                     r = box.xyxy[0].astype(int)
                     
                     top_left = (r[0], r[1])
