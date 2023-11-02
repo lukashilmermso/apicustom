@@ -123,7 +123,7 @@ def process_image(file):
             type = combinedClasses[box.cls[0].astype(int)]
             if box.conf[0] > 0.75:
                 if type in multipleClasses.values():
-                    color = (255, 0, 0)
+                    color = (0, 0, 255)
                     r = box.xyxy[0].astype(int)
         
                     top_left = (r[0], r[1])
@@ -163,7 +163,7 @@ def process_image(file):
                     # Define the font settings
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     font_scale = 3
-                    font_color = (225,0,0)
+                    font_color = (0, 0, 255)
                     font_thickness = 10
                     
                     # Add the custom label to the image
