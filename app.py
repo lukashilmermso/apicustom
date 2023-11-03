@@ -14,7 +14,7 @@ from ultralytics import YOLO
 import numpy as np
 import cv2
 
-
+#test
 def create_app():
     app = Flask(__name__, static_folder='uploads', static_url_path='/uploads')
     app.config['UPLOAD_FOLDER'] = '/app/uploads/'
