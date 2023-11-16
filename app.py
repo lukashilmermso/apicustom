@@ -114,7 +114,7 @@ def process_image(file):
     opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
     results = model.predict(source=opencv_image, show=False, conf=0.75)
-    color = (0, 255, 0)  # Color of the rectangle (in BGR format)
+    color = (0, 0, 0)  # Color of the rectangle (in BGR format)
     thickness = 2  # Thickness of the rectangle's border
     
     for result in results:
@@ -123,7 +123,7 @@ def process_image(file):
             type = combinedClasses[box.cls[0].astype(int)]
             if box.conf[0] > 0.75:
                 if type in multipleClasses.values():
-                    color = (0, 0, 255)
+                    color = (0, 0, 0)
                     r = box.xyxy[0].astype(int)
         
                     top_left = (r[0], r[1])
@@ -153,7 +153,7 @@ def process_image(file):
                     elif names_dict[np.argmax(probs)] == "2":
                         a = "5-320-02"
                     
-                    label_text = "(!) " + a
+                    label_text = a
                     
                     #" (Conf: " + str(round(box.conf[0], 2)) + ")"
                     cv2.rectangle(opencv_image, top_left, bottom_right, color, thickness)
@@ -163,13 +163,13 @@ def process_image(file):
                     # Define the font settings
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     font_scale = 3
-                    font_color = (0, 0, 255)
+                    font_color = (0, 0, 0)
                     font_thickness = 10
                     
                     # Add the custom label to the image
                     cv2.putText(opencv_image, label_text, label_position, font, font_scale, font_color, font_thickness)
                 else:
-                    color = (0, 255, 0)  # Color of the rectangle (in BGR format)
+                    color = (0, 0, 0)  # Color of the rectangle (in BGR format)
                     r = box.xyxy[0].astype(int)
                     
                     top_left = (r[0], r[1])
@@ -190,7 +190,7 @@ def process_image(file):
                     # Define the font settings
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     font_scale = 3
-                    font_color = (0, 255, 0)
+                    font_color = (0, 0, 0)
                     font_thickness = 10
                     
                     # Add the custom label to the image
