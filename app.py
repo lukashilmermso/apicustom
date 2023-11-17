@@ -123,7 +123,7 @@ def process_image(file):
             type = combinedClasses[box.cls[0].astype(int)]
             if box.conf[0] > 0.75:
                 if type in multipleClasses.values():
-                    color = (49, 72, 179)
+                    color = (31, 17, 210)
                     r = box.xyxy[0].astype(int)
         
                     top_left = (r[0], r[1])
@@ -163,13 +163,13 @@ def process_image(file):
                     # Define the font settings
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     font_scale = 3
-                    font_color = (49, 72, 179)
+                    font_color = (31, 17, 210)
                     font_thickness = 10
                     
                     # Add the custom label to the image
                     cv2.putText(opencv_image, label_text, label_position, font, font_scale, font_color, font_thickness)
                 else:
-                    color = (49, 179, 130)  # Color of the rectangle (in BGR format)
+                    color = (17, 210, 185)  # Color of the rectangle (in BGR format)
                     r = box.xyxy[0].astype(int)
                     
                     top_left = (r[0], r[1])
@@ -190,7 +190,7 @@ def process_image(file):
                     # Define the font settings
                     font = cv2.FONT_HERSHEY_SIMPLEX
                     font_scale = 3
-                    font_color = (49, 179, 130)
+                    font_color = (17, 210, 185)
                     font_thickness = 10
                     
                     # Add the custom label to the image
