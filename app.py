@@ -48,7 +48,7 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 
-#model = YOLO('bestBBOXES.pt')
+#model = YOLO('best.pt')
 model = YOLO("bestALLCLASSES.pt")
 model1 = YOLO('bestClass.pt')
 model2 = YOLO('best newclasses1.pt')
